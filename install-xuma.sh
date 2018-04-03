@@ -199,9 +199,10 @@ function ask_user()
     echo "$USER_NAME:$USER_PASSWORD" | chpasswd
 
     home_dir=$(sudo -H -u $USER_NAME bash -c 'echo $HOME')
-    DATA_DIR="$home_dir/.xuma/mainnet"
+    DATA_DIR="$home_dir/.xuma"
         
     mkdir -p $DATA_DIR
+    mkdir -p $DATA_DIR/mainnet
     chown -R $USER_NAME: $DATA_DIR >/dev/null 2>&1
     
     sudo -u $USER_NAME bash -c : && RUNAS="sudo -u $USER_NAME"
@@ -238,11 +239,11 @@ function create_config()
 {
   RPCUSER=$(pwgen -s 8 1)
   RPCPASSWORD=$(pwgen -s 15 1)
-  DAEMON_IP=$(ip route get 1 | awk '{print $NF;exit}')
-  cat << EOF > $DATA_DIR/$CONFIG_FILE
+  DAEMON_IP=$(ip route get 1 | awk '{print $NF;exit}')  
+  cat << EOF > $DATA_DIR/mainnet/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
-rpcport=$RPCPORT
+rpcport=$DEFAULT_RPC_PORT
 rpcallowip=127.0.0.1
 listen=1
 server=1
@@ -284,17 +285,17 @@ function create_key()
 
 function update_config() 
 {
-  cat << EOF >> $DATA_DIR/$CONFIG_FILE
+  cat << EOF >> $DATA_DIR/mainnet/$CONFIG_FILE
 masternode=1
-masternodeaddr=$DAEMON_IP:$RPCPORT
+masternodeaddr=$DAEMON_IP:$DAEMON_PORT
 masternodeprivkey=$PRIV_KEY
 EOF
-  chown $USER_NAME: $DATA_DIR/$CONFIG_FILE >/dev/null
+  chown $USER_NAME: $DATA_DIR/mainnet/$CONFIG_FILE >/dev/null
 }
 
 function add_log_truncate()
 {
-  LOG_FILE="$DATA_DIR/debug.log";
+  LOG_FILE="$DATA_DIR/mainnet/debug.log";
 
   mkdir ~/.xuma >/dev/null 2>&1
   cat << EOF >> ~/.xuma/clearlog-$USER_NAME.sh
@@ -316,7 +317,7 @@ function show_output()
  echo -e "Your Xuma coin master node is up and running." 
  echo -e " - it is running as user ${GREEN}$USER_NAME${NC} and it is listening on port ${GREEN}$DAEMON_PORT${NC} at your VPS address ${GREEN}$DAEMON_IP${NC}."
  echo -e " - the ${GREEN}$USER_NAME${NC} password is ${GREEN}$USER_PASSWORD${NC}"
- echo -e " - the Xuma configuration file is located at ${GREEN}$DATA_DIR/$CONFIG_FILE${NC}"
+ echo -e " - the Xuma configuration file is located at ${GREEN}$DATA_DIR/mainnet/$CONFIG_FILE${NC}"
  echo -e " - the masternode privkey is ${GREEN}$PRIV_KEY${NC}"
  echo
  echo -e "You can manage your Xuma service from the cmdline with the following commands:"
@@ -362,9 +363,9 @@ echo
 echo -e "========================================================================================================="
 echo -e "${GREEN}"
 echo -e "                                        Yb  dP 8b    d8 Yb  dP"
-echo -e "                                         Y\/P  88b  d88  Y\/P"
-echo -e "                                         d/\b  88 \/ 88  d/\b" 
-echo -e "                                        dP  Yb 88    88 dP  Yb" 
+echo    "                                         YbdP  88b  d88  YbdP"
+echo    "                                         dPYb  88YbdP88  dPYb" 
+echo -e "                                        dP  Yb 88 YY 88 dP  Yb" 
 echo                          
 echo -e "${NC}"
 echo -e "This script will automate the installation of your Xuma coin masternode and server configuration by"
@@ -404,6 +405,5 @@ if [[ "$NEW_NODE" == "new" ]]; then
   setup_node
 else
     echo -e "${GREEN}The Xuma daemon is already running. Xuma does not support multiple masternodes on one host.${NC}"
-  get_info
   exit 0
 fi
