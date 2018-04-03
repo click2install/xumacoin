@@ -27,7 +27,7 @@ You are now ready to configure your local wallet and finish the masternode setup
  1. Make sure you have downloaded the latest wallet from https://github.com/xumacoin/xuma-core/releases
  2. Install the wallet on your local PC
  3. Start the wallet and let if completely synchronize to the network - this will take some time
- 4. Make sure you have at least 1000.00002 ELP in your wallet
+ 4. Make sure you have at least 10000.00002 XMX in your wallet
  5. Open your wallet debug console by going to Tools > Debug Console
  6. In the console type: `getnewaddress [address-name]` - e.g. `getnewaddress mn1`
  7. In the console type: `sendtoaddress [output from #6] 1000`
