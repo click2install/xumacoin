@@ -66,12 +66,10 @@ function prepare_system()
   DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade 
   
   echo -e "${GREEN}Installing all dependencies for the Xuma coin master node, it may take some time to finish.${NC}"
-  apt install -y git automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev
-  apt install -y install libboost-all-dev software-properties-common
+  apt install -y git wget pwgen automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev libboost-all-dev software-properties-common fail2ban ufw htop unzip
   apt-add-repository -y ppa:bitcoin/bitcoin
   apt update
   apt install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev
-  apt install -y fail2ban htop unzip
   clear
   
   if [ "$?" -gt "0" ]; then
@@ -79,12 +77,10 @@ function prepare_system()
       echo -e "Try to install them manually by running the following commands:${NC}\n"
       echo -e "apt update"
       echo -e "apt upgrade"
-      echo -e "apt install -y git automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev"
-      echo -e "apt install -y install libboost-all-dev software-properties-common"
+      echo -e "apt install -y git wget pwgen automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev libboost-all-dev software-properties-common fail2ban ufw htop unzip"
       echo -e "apt-add-repository -y ppa:bitcoin/bitcoin"
       echo -e "apt update"
       echo -e "apt install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev"
-      echo -e "apt install -y fail2ban htop unzip"
    exit 1
   fi
 
