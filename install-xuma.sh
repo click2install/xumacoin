@@ -123,7 +123,7 @@ function enable_firewall()
 
   ufw disable >/dev/null 2>&1
   ufw allow $DAEMON_PORT/tcp comment "Xuma Masternode port" >/dev/null 2>&1
-  ufw allow $[DEFAULT_RPC_PORT]/tcp comment "Xuma Masernode RPC port" >/dev/null 2>&1
+  ufw allow $DEFAULT_RPC_PORT/tcp comment "Xuma Masernode RPC port" >/dev/null 2>&1
   
   ufw allow $SSH_PORTNUMBER/tcp comment "Custom SSH port" >/dev/null 2>&1
   ufw limit $SSH_PORTNUMBER/tcp >/dev/null 2>&1
