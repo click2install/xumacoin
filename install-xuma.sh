@@ -71,6 +71,8 @@ function prepare_system()
   apt-add-repository -y ppa:bitcoin/bitcoin
   apt update
   apt install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev
+  apt autoremove -y
+  apt autoclean -y
   clear
   
   if [ "$?" -gt "0" ]; then
@@ -82,6 +84,8 @@ function prepare_system()
       echo -e "apt-add-repository -y ppa:bitcoin/bitcoin"
       echo -e "apt update"
       echo -e "apt install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev"
+      echo -e "apt autoremove -y"
+      echo -e "apt autoclean -y"
    exit 1
   fi
 
