@@ -52,6 +52,7 @@ function prepare_system()
       chmod 600 /swapfile
       mkswap /swapfile
       swapon -a /swapfile
+      echo "/swapfile    none    swap    sw    0   0" >> /etc/fstab
     else
       echo -e "${GREEN}Swap file already exists.${NC}"
     fi
@@ -122,7 +123,7 @@ function enable_firewall()
 
   ufw disable >/dev/null 2>&1
   ufw allow $DAEMON_PORT/tcp comment "Xuma Masternode port" >/dev/null 2>&1
-  ufw allow $[DAEMON_PORT+1]/tcp comment "Xuma Masernode RPC port" >/dev/null 2>&1
+  ufw allow $[DEFAULT_RPC_PORT]/tcp comment "Xuma Masernode RPC port" >/dev/null 2>&1
   
   ufw allow $SSH_PORTNUMBER/tcp comment "Custom SSH port" >/dev/null 2>&1
   ufw limit $SSH_PORTNUMBER/tcp >/dev/null 2>&1
