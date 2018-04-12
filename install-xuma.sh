@@ -47,7 +47,7 @@ function prepare_system()
   if [ "$PHYMEM" -lt "2" ]; then
     SWAP=$(swapon -s get 1 | awk '{print $1}')
     if [ -z "$SWAP" ]; then
-      echo -e "${GREEN}Server is running without a swap file and less than 2G of RAM, creating a $G swap file.${NC}"
+      echo -e "${GREEN}Server is running without a swap file and less than 2G of RAM, creating a 4G swap file.${NC}"
       dd if=/dev/zero of=/swapfile bs=1024 count=4M
       chmod 600 /swapfile
       mkswap /swapfile
