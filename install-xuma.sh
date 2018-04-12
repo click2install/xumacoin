@@ -47,8 +47,8 @@ function prepare_system()
   if [ "$PHYMEM" -lt "2" ]; then
     SWAP=$(swapon -s get 1 | awk '{print $1}')
     if [ -z "$SWAP" ]; then
-      echo -e "${GREEN}Server is running without a swap file and less than 2G of RAM, creating a 2G swap file.${NC}"
-      dd if=/dev/zero of=/swapfile bs=1024 count=2M
+      echo -e "${GREEN}Server is running without a swap file and less than 2G of RAM, creating a $G swap file.${NC}"
+      dd if=/dev/zero of=/swapfile bs=1024 count=4M
       chmod 600 /swapfile
       mkswap /swapfile
       swapon -a /swapfile
@@ -149,6 +149,7 @@ function add_daemon_service()
 [Unit]
 Description=Xuma deamon service
 After=network.target
+After=syslog.target
 [Service]
 Type=forking
 User=$USER_NAME
@@ -165,6 +166,7 @@ StartLimitBurst=5
   
 [Install]
 WantedBy=multi-user.target
+Alias=xumad.service
 EOF
 
   systemctl daemon-reload
