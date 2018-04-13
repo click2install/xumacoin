@@ -59,6 +59,20 @@ If you want to run the script before setting up the node in your cold wallet the
 
 &nbsp;
 
+
+## Removing a master node
+If you have used the `install-xuma.sh` script to install your masternode and you want to remove it. You can run `remove-xuma.sh` to clean your server of all files and folders that the installation script created.
+
+For removal, run the following commands from your server:
+
+```
+wget -q https://raw.githubusercontent.com/click2install/xumacoin/master/remove-xuma.sh  
+bash remove-xuma.sh
+rm -f remove-xuma.sh
+```
+
+&nbsp;
+
 ## Security
 The script allows for a custom SSH port to be specified as well as setting up the required firewall rules to only allow inbound SSH and node communications, whilst blocking all other inbound ports and all outbound ports.
 

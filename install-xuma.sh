@@ -301,14 +301,18 @@ function add_log_truncate()
   LOG_FILE="$DATA_DIR/mainnet/debug.log";
 
   mkdir ~/.xuma >/dev/null 2>&1
-  cat << EOF >> ~/.xuma/clearlog-$USER_NAME.sh
-/bin/date > $LOG_FILE
+  cat << EOF >> $DATA_DIR/logrotate.conf
+$DATA_DIR/mainnet/*.log {
+    rotate 4
+    weekly
+    compress
+    missingok
+    notifempty
+}
 EOF
 
-  chmod +x ~/.xuma/clearlog-$USER_NAME.sh
-
-  if ! crontab -l | grep "~/xuma/clearlog-$USER_NAME.sh"; then
-    (crontab -l ; echo "0 0 */2 * * ~/.xuma/clearlog-$USER_NAME.sh") | crontab -
+  if ! crontab -l | grep "/home/$USER_NAME/logrotate.conf"; then
+    (crontab -l ; echo "1 * 1/1 * * /usr/sbin/logrotate $DATA_DIR/logrotate.conf --state $DATA_DIR/logrotate-state") | crontab -
   fi
 }
 
@@ -317,25 +321,37 @@ function show_output()
  echo
  echo -e "================================================================================================================================"
  echo
- echo -e "Your Xuma coin master node is up and running." 
+ echo -e "${GREEN}Your Xuma coin master node is up and running.${NC}" 
+ echo
+ echo -e "${YELLOW}It is recommended that you copy/paste all of this information and keep it in a safely kept file on your local PC"
+ echo -e "so you know how to use the commands below to manage your Xuma master node.${NC}"
+ echo
  echo -e " - it is running as user ${GREEN}$USER_NAME${NC} and it is listening on port ${GREEN}$DAEMON_PORT${NC} at your VPS address ${GREEN}$DAEMON_IP${NC}."
- echo -e " - the ${GREEN}$USER_NAME${NC} password is ${GREEN}$USER_PASSWORD${NC}"
+ echo -e " - the ${GREEN}$USER_NAME password${NC} is ${GREEN}$USER_PASSWORD${NC}"
+ echo -e " - the Xuma binary files are installed to ${GREEN}/usr/local/bin${NC}"
+ echo -e " - all data and configuration for the masternode is located at ${GREEN}$DATA_DIR${NC} and the folders within"
  echo -e " - the Xuma configuration file is located at ${GREEN}$DATA_DIR/mainnet/$CONFIG_FILE${NC}"
  echo -e " - the masternode privkey is ${GREEN}$PRIV_KEY${NC}"
  echo
- echo -e "You can manage your Xuma service from the cmdline with the following commands:"
- echo -e " - ${GREEN}systemctl start $USER_NAME.service${NC} to start the service for the given user."
- echo -e " - ${GREEN}systemctl stop $USER_NAME.service${NC} to stop the service for the given user."
+ echo -e "You can manage your Xuma service from your SSH cmdline with the following commands:"
+ echo -e " - ${GREEN}systemctl start $USER_NAME.service${NC} to start the service."
+ echo -e " - ${GREEN}systemctl stop $USER_NAME.service${NC} to stop the service."
+ echo -e " - ${GREEN}systemctl status $USER_NAME.service${NC} to get the status of the service."
  echo
  echo -e "The installed service is set to:"
  echo -e " - auto start when your VPS is rebooted."
- echo -e " - clear the ${GREEN}$LOG_FILE${NC} log file every 2nd day."
+ echo -e " - rotate your ${GREEN}$LOG_FILE${NC} file once per week and keep the last 4 weeks of logs."
  echo
- echo -e "You can interrogate your masternode using the following commands when logged in as $USER_NAME:"
- echo -e " - ${GREEN}${CLI_BINARY} stop${NC} to stop the daemon"
- echo -e " - ${GREEN}${DAEMON_BINARY} -daemon${NC} to start the daemon"
+ echo -e "The daemon is installed to run as a service, so the ${GREEN}${CLI_BINARY} start${NC} and ${GREEN}${CLI_BINARY} stop${NC}"
+ echo -e "commands do not need to be used. You should use the ${GREEN}servicectl${NC} commands listed above instead."
+ echo
+ echo -e "You can find the masternode status when logged in as $USER_NAME using the command below:"
  echo -e " - ${GREEN}${CLI_BINARY} getinfo${NC} to retreive your nodes status and information"
  echo
+ echo -e "  if you are not logged in as $USER_NAME then you can run ${YELLOW}su - $USER_NAME${NC} to switch to that user before"
+ echo -e "  running the ${GREEN}getinfo${NC} command."
+ echo -e "  NOTE: the deamon must be running first before trying this command. See notes above on service commands usage."
+ echo 
  echo -e "You can run ${GREEN}htop${NC} if you want to verify the Xuma service is running or to monitor your server."
  if [[ $SSH_PORTNUMBER -ne $DEFAULT_SSH_PORT ]]; then
  echo
@@ -382,7 +398,7 @@ echo -e " - Install the Xuma masternode service"
 echo -e " - Update your system with a non-standard SSH port (optional)"
 echo -e " - Add DDoS protection using fail2ban"
 echo -e " - Update the system firewall to only allow; SSH, the masternode ports and outgoing connections"
-echo -e " - Add some scheduled tasks for system maintenance"
+echo -e " - Manage your log files using the logrotate utility"
 echo
 echo -e "The script will output ${YELLOW}questions${NC}, ${GREEN}information${NC} and ${RED}errors${NC}"
 echo -e "When finished the script will show a summary of what has been done."
