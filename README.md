@@ -2,6 +2,19 @@
 
 Shell script to install an [Xuma Masternode](https://bitcointalk.org/index.php?topic=2976421.0) on a Linux server running Ubuntu 16.04.
 
+## Table of Contents:
+
+  - [Installation](#Installation)
+  - [How to setup your masternode with this script and a cold wallet on your PC](#how-to-setup-your-masternode-with-this-script-and-a-cold-wallet-on-your-PC)
+  - [Multiple master nodes on one server](#multiple-master-nodes-on-one-server)
+  - [Running the script](#running-the-script)
+  - [Removing a master node](#removing-a-master-node)
+  - [How to tell my master node is "actually" running properly](#how-to-tell-my-master-node-is-actually-running-properly)
+  - [Security](#security)
+  - [Disclaimer](#disclaimer)
+
+
+
 ## Installation 
 ```
 wget -q https://raw.githubusercontent.com/click2install/xumacoin/master/install-xuma.sh  
