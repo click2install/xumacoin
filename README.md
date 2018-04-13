@@ -73,6 +73,53 @@ rm -f remove-xuma.sh
 
 &nbsp;
 
+
+## How to tell my master node is "actually" running properly
+Sometimes it looks like your masternode is running, when looking at your wallet but it is not always the case. To check it is running you can do the follwing test.
+
+NOTE: that if you clicked “Start” soon after you ran your node on the VPS, there is a good chance the wallet says it is “ENABLED” when it actually isn’t, you need to perform the steps below to make sure it is. It is best to wait until the node is synced to the current date before starting your node from the wallet, this not only ensures it starts properly, but it also allows you to more easily see the log output.
+
+
+### Check the log files on the VPS
+Login to the VPS and run `tail -f /home/<username>/.xuma/mainnet/debug.log` where `<username>` is the username you installed your node with using the script above.
+
+This will show the last 10 or so lines of the log file. Note, if you see many lines that look like:
+
+```
+ProcessBlock: ORPHAN BLOCK 16, prev=89f920965c1bfa54535be2121ec84c4c060eebc5ef0075f9979852c486473f5d
+SetBestChain: new best=e63d5078dd3c5e7521e93541080ebbefb3061ad436f032198473370090291f0a height=16010
+```
+
+Then the wallet is not yet fully synced, watch the time entry on the left and wait until it reaches today’s date and the entries will stop flying by and give you a chance to find the entry like:
+
+```
+CActiveMasternode::Dseep() — RelayMasternodeEntryPing vin = CTxIn(COutPoint(16344302e, 1), scriptSig=)
+```
+
+If you do not see this appear within a minute or so of watching, you may have a problem, you then need to look for an entry like:
+
+```
+CActiveMasternode::Dseep()  - Error: masternode is not in a running status
+```
+
+If you see the error above, go back to your wallet and click the “Start” button again for the masternode you want to start. In the log output you should then see:
+
+```
+CActiveMasternode::EnableHotColdMasterNode() — Enabled! You may shut down the cold daemon.
+```
+
+Subsequent output, about every minute, will also then show output like:
+
+```
+CActiveMasternode::Dseep() — RelayMasternodeEntryPing vin = CTxIn(COutPoint(16344302e, 1), scriptSig=)
+```
+
+This now means your masternode is running properly and you will soon be receiving rewards. 
+
+Press Ctrl + C to exit the log tail.
+
+&nbsp;
+
 ## Security
 The script allows for a custom SSH port to be specified as well as setting up the required firewall rules to only allow inbound SSH and node communications, whilst blocking all other inbound ports and all outbound ports.
 
