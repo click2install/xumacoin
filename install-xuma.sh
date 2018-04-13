@@ -223,7 +223,7 @@ function check_port()
   PORTS=($(netstat -tnlp | awk '/LISTEN/ {print $4}' | awk -F":" '{print $NF}' | sort | uniq | tr '\r\n'  ' '))
   ask_port
 
-  while [[ ${PORTS[@]} =~ $DAEMON_PORT ]] || [[ ${PORTS[@]} =~ $[DAEMON_PORT+1] ]]; do
+  while [[ ${PORTS[@]} =~ $DAEMON_PORT ]] || [[ ${PORTS[@]} =~ $[DEFAULT_RPC_PORT] ]]; do
     clear
     echo -e "${RED}Port in use, please choose another port:${NF}"
     ask_port
