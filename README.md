@@ -1,13 +1,13 @@
 # Xuma Coin
 
-Shell script to install an [Xuma Masternode](https://bitcointalk.org/index.php?topic=2976421.0) on a Linux server running Ubuntu 16.04.
+Shell script to install and remove a [Xuma Masternode](https://bitcointalk.org/index.php?topic=2976421.0) on a Linux server running Ubuntu 16.04.
 
-## Table of Contents:
+## Contents
 
   - [Installation](#Installation)
   - [How to setup your masternode with this script and a cold wallet on your PC](#how-to-setup-your-masternode-with-this-script-and-a-cold-wallet-on-your-PC)
   - [Multiple master nodes on one server](#multiple-master-nodes-on-one-server)
-  - [Running the script](#running-the-script)
+  - [Running the install script](#running-the-install-script)
   - [Removing a master node](#removing-a-master-node)
   - [How to tell my master node is "actually" running properly](#how-to-tell-my-master-node-is-actually-running-properly)
   - [Security](#security)
@@ -65,7 +65,7 @@ The script does not support installing multiple masternodes on the same host.
 &nbsp;
 
 
-## Running the script
+## Running the install script
 When you run the script it will tell you what it will do on your system. Once completed there is a summary of the information you need to be aware of regarding your node setup which you can copy/paste to your local PC.
 
 If you want to run the script before setting up the node in your cold wallet the script will generate a priv key for you to use, otherwise you can supply the privkey during the script execution.
