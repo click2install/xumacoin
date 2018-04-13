@@ -1,15 +1,9 @@
 #!/bin/bash
 
-TMP_FOLDER=$(mktemp -d)
-CONFIG_FILE="xuma.conf"
 DEFAULT_PORT=19777
 DEFAULT_RPC_PORT=19643
-DEFAULT_SSH_PORT=22
 DAEMON_BINARY="xumad"
-CLI_BINARY="xuma-cli"
 DAEMON_BINARY_FILE="/usr/local/bin/$DAEMON_BINARY"
-CLI_BINARY_FILE="/usr/local/bin/$CLI_BINARY"
-GITHUB_REPO="https://github.com/xumacoin/xuma-core.git"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -84,10 +78,10 @@ function clean_cron()
 
 function clean_firewall() 
 {
-  echo -e "${GREEN}Setting up firewall to allow access on port $DAEMON_PORT.${NC}"
+  echo -e "${GREEN}Removing default firewall rules for port $DEFAULT_PORT and $DEFAULT_RPC_PORT.${NC}"
 
   ufw disable >/dev/null 2>&1
-  ufw delete allow $DAEMON_PORT/tcp >/dev/null 2>&1
+  ufw delete allow $DEFAULT_PORT/tcp >/dev/null 2>&1
   ufw delete allow $DEFAULT_RPC_PORT/tcp >/dev/null 2>&1
   
   ufw logging on >/dev/null 2>&1
