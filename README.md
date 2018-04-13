@@ -43,7 +43,7 @@ You are now ready to configure your local wallet and finish the masternode setup
  4. Make sure you have at least 10000.00002 XMX in your wallet
  5. Open your wallet debug console by going to Tools > Debug Console
  6. In the console type: `getnewaddress [address-name]` - e.g. `getnewaddress mn1`
- 7. In the console type: `sendtoaddress [output from #6] 1000`
+ 7. In the console type: `sendtoaddress [output from #6] 10000`
  8. Wait for the transaction from #7 to be fully confirmed. Look for a tick in the first column in your transactions tab
  9. Once confirmed, type in your console: `masternode outputs`
  10. Open your masternode configuration file from Tools > Open Masternode Configuration File
