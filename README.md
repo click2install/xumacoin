@@ -66,7 +66,7 @@ The script does not support installing multiple masternodes on the same host.
 
 
 ## Running the install script
-When you run the script it will tell you what it will do on your system. Once completed there is a summary of the information you need to be aware of regarding your node setup which you can copy/paste to your local PC.
+When you run the `install-xuma.sh` script it will tell you what it will do on your system. Once completed there is a summary of the information you need to be aware of regarding your node setup which you can copy/paste to your local PC.
 
 If you want to run the script before setting up the node in your cold wallet the script will generate a priv key for you to use, otherwise you can supply the privkey during the script execution.
 
@@ -111,7 +111,7 @@ Then the wallet is not yet fully synced, watch the time entry on the left and wa
 CActiveMasternode::Dseep() — RelayMasternodeEntryPing vin = CTxIn(COutPoint(16344302e, 1), scriptSig=)
 ```
 
-If you do not see this appear within a minute or so of watching, you may have a problem, you then need to look for an entry like:
+Once the output slows down, if you do not see this appear within a minute or so of watching, you may have a problem, you then need to look for an entry like:
 
 ```
 CActiveMasternode::Dseep()  - Error: masternode is not in a running status
@@ -123,13 +123,21 @@ If you see the error above, go back to your wallet and click the “Start” but
 CActiveMasternode::EnableHotColdMasterNode() — Enabled! You may shut down the cold daemon.
 ```
 
-Subsequent output, about every minute, will also then show output like:
+Subsequent output starting with `CActiveMasternode` which should appear about every minute, should then show output like:
 
 ```
 CActiveMasternode::Dseep() — RelayMasternodeEntryPing vin = CTxIn(COutPoint(16344302e, 1), scriptSig=)
 ```
 
 This now means your masternode is running properly and you will soon be receiving rewards. 
+
+If you dont see the `Enabled! You may shut down the cold daemon` line appear when you click Start:
+
+ - wait a few minutes 
+ - click Start again
+ - then check the VPS log tail output
+ 
+Sometimes your masternode needs time to broadcast itself to the network before this command will work correctly. The time that takes varies based on the amount of network activity.
 
 Press Ctrl + C to exit the log tail.
 
