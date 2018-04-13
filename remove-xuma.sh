@@ -30,7 +30,7 @@ function checks()
 
 function ask_user() 
 {  
-  read -e -p "$(echo -e $YELLOW Enter a the username that was used to install the Xuma service: $NC)" -i "" USER_NAME
+  read -e -p "$(echo -e $YELLOW Enter the username that was used to install the Xuma service: $NC)" -i "" USER_NAME
 
   if [ -z "$USER_NAME" ]; then
     echo -e "${RED}A username must be provided, so the Xuma configuration can be removed.${NC}"
