@@ -342,7 +342,7 @@ function show_output()
  echo -e " - auto start when your VPS is rebooted."
  echo -e " - rotate your ${GREEN}$LOG_FILE${NC} file once per week and keep the last 4 weeks of logs."
  echo
- echo -e "The daemon is installed to run as a service, so the ${GREEN}${CLI_BINARY} start${NC} and ${GREEN}${CLI_BINARY} stop${NC}"
+ echo -e "The daemon is installed to run as a service, so the ${GREEN}${DAEMON_BINARY} -daemon${NC} and ${GREEN}${CLI_BINARY} stop${NC}"
  echo -e "commands do not need to be used. You should use the ${GREEN}servicectl${NC} commands listed above instead."
  echo
  echo -e "You can find the masternode status when logged in as $USER_NAME using the command below:"
