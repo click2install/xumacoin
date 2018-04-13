@@ -83,7 +83,9 @@ NOTE: that if you clicked “Start” soon after you ran your node on the VPS, t
 ### Check the log files on the VPS
 Login to the VPS and run `tail -f /home/<username>/.xuma/mainnet/debug.log` where `<username>` is the username you installed your node with using the script above.
 
-This will show the last 10 or so lines of the log file. Note, if you see many lines that look like:
+This will `continutally` show the last 10 or so lines of the log file until we cancel it (at the end of this section). 
+
+Note, if you see many lines that look like:
 
 ```
 ProcessBlock: ORPHAN BLOCK 16, prev=89f920965c1bfa54535be2121ec84c4c060eebc5ef0075f9979852c486473f5d
@@ -102,7 +104,7 @@ If you do not see this appear within a minute or so of watching, you may have a 
 CActiveMasternode::Dseep()  - Error: masternode is not in a running status
 ```
 
-If you see the error above, go back to your wallet and click the “Start” button again for the masternode you want to start. In the log output you should then see:
+If you see the error above, go back to your wallet and click the “Start” button again for the masternode you want to start. In the VPS log output you should then see:
 
 ```
 CActiveMasternode::EnableHotColdMasterNode() — Enabled! You may shut down the cold daemon.
