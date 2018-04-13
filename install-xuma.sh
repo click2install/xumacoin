@@ -312,7 +312,7 @@ $DATA_DIR/mainnet/*.log {
 EOF
 
   if ! crontab -l | grep "/home/$USER_NAME/logrotate.conf"; then
-    (crontab -l ; echo "1 * 1/1 * * /usr/sbin/logrotate $DATA_DIR/logrotate.conf --state $DATA_DIR/logrotate-state") | crontab -
+    (crontab -l ; echo "1 0 * * 1 /usr/sbin/logrotate $DATA_DIR/logrotate.conf --state $DATA_DIR/logrotate-state") | crontab -
   fi
 }
 
