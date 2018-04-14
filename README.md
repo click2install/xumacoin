@@ -63,11 +63,11 @@ You are now ready to configure your local wallet and finish the masternode setup
 A script is provided to update your local Windows wallet for the default configuration. You will need to:
  - Download the `xuma.conf.cmd` file to your wallets data directory
  - Double click the downloaded file and follow the prompts
- - This is best done before starting your wallet, if your wallet is already running, close it first then run the `cmd` file
+ - This is best done before starting your wallet, if your wallet is already running, close it first then run the `xuma.conf.cmd` file
 
 The script will add a `xuma.conf` default configuration in the folder in which the script is run.
 
-NOTE: this script is only intended to run on a Windows PC.
+NOTE: this script is only intended to run on a Windows PC that is not a masternode. If your PC is also a masternode, the script will work but additional information will need to be added to the generated `xuma.conf` file.
 
 &nbsp;
 
