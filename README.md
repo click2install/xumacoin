@@ -8,6 +8,7 @@ Shell scripts to install and remove a [Xuma Masternode](https://bitcointalk.org/
   - [How to setup your masternode with this script and a cold wallet on your PC](#how-to-setup-your-masternode-with-this-script-and-a-cold-wallet-on-your-PC)
   - [Multiple master nodes on one server](#multiple-master-nodes-on-one-server)
   - [Running the install script](#running-the-install-script)
+  - [Adding PC wallet configuration](#adding-pc-wallet-configuration)
   - [Removing a master node](#removing-a-master-node)
   - [How to tell my master node is "actually" running properly](#how-to-tell-my-master-node-is-actually-running-properly)
   - [Security](#security)
@@ -53,6 +54,20 @@ You are now ready to configure your local wallet and finish the masternode setup
  14. Close your wallet and restart
  15. Open the debug console and type `masternode start-alias <address-name from #6>`
  16. Your node should now be running successfully.
+
+&nbsp;
+
+
+## Adding PC wallet configuration
+
+A script is provided to update your local Windows wallet for the default configuration. You will need to:
+ - Download the `xuma.conf.cmd` file to your wallets data directory
+ - Double click the downloaded file and follow the prompts
+ - This is best done before starting your wallet, if your wallet is already running, close it first then run the `cmd` file
+
+The script will add a `xuma.conf` default configuration in the folder in which the script is run.
+
+NOTE: this script is only intended to run on a Windows PC.
 
 &nbsp;
 
