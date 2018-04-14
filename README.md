@@ -1,6 +1,6 @@
 # Xuma Coin
 
-Shell script to install and remove a [Xuma Masternode](https://bitcointalk.org/index.php?topic=2976421.0) on a Linux server running Ubuntu 16.04.
+Shell scripts to install and remove a [Xuma Masternode](https://bitcointalk.org/index.php?topic=2976421.0) on a Linux server running Ubuntu 16.04.
 
 ## Contents
 
@@ -51,10 +51,8 @@ You are now ready to configure your local wallet and finish the masternode setup
  12. Your masternodes.conf file entry should look like: `MN-1 127.0.0.2:6110 93HaYBVUCYjEMeeH1Y4sBGLALQZE1Yc1K64xiqgX37tGBDQL8Xg 2bcd3c84c84f87eaa86e4e56834c92927a07f9e18718810b92e0d0324456a67c 0`
  13. Save and close your masternodes.conf file
  14. Close your wallet and restart
- 15. Go to Masternodes > My MasterNodes
- 16. Click the row for the masternode you just added
- 17. Right click > Start Alias
- 18. Your node should now be running successfully.
+ 15. Open the debug console and type `masternode start-alias <address-name from #6>`
+ 16. Your node should now be running successfully.
 
 &nbsp;
 
