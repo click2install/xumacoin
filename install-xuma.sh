@@ -158,6 +158,7 @@ WorkingDirectory=$DATA_DIR
 ExecStart=$DAEMON_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/mainnet/xuma.conf -daemon
 ExecStop=$CLI_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/mainnet/xuma.conf stop
 Restart=always
+RestartSec=3
 PrivateTmp=true
 TimeoutStopSec=60s
 TimeoutStartSec=10s
