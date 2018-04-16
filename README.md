@@ -107,15 +107,15 @@ The removal script will permanently delete files. If you have coins in your VPS 
 ## How to tell my master node is "actually" running properly
 Sometimes it looks like your masternode is running, when looking at your wallet but it is not always the case. To check it is running you can do the follwing test.
 
-NOTE: that if you clicked “Start” soon after you ran your node on the VPS, there is a good chance the wallet says it is “ENABLED” when it actually isn’t, you need to perform the steps below to make sure it is. It is best to wait until the node is synced to the current date before starting your node from the wallet, this not only ensures it starts properly, but it also allows you to more easily see the log output.
+If you started your masternode from your wallet soon after you ran your node on the VPS, there is a good chance the wallet says it is “ENABLED” when it actually isn’t, you need to perform the steps below to make sure it is. It is best to wait until the node is synced to the current date before starting your node from the wallet, this not only ensures it starts properly, but it also allows you to more easily see the log output.
 
 
 ### Check the log files on the VPS
 Login to the VPS and run `tail -f /home/<username>/.xuma/mainnet/debug.log` where `<username>` is the username you installed your node with using the script above.
 
-This will `continutally` show the last 10 or so lines of the log file until we cancel it (at the end of this section). 
+This will `continually` show the last 10 or so lines of the log file until we cancel it (at the end of this section). 
 
-Note, if you see many lines that look like:
+Note, you see many lines that look like:
 
 ```
 ProcessBlock: ORPHAN BLOCK 16, prev=89f920965c1bfa54535be2121ec84c4c060eebc5ef0075f9979852c486473f5d
@@ -134,7 +134,7 @@ Once the output slows down, if you do not see this appear within a minute or so 
 CActiveMasternode::Dseep()  - Error: masternode is not in a running status
 ```
 
-If you see the error above, go back to your wallet and click the “Start” button again for the masternode you want to start. In the VPS log output you should then see:
+If you see the error above, go back to your wallet and start your masternode again. In the VPS log output you should then see:
 
 ```
 CActiveMasternode::EnableHotColdMasterNode() — Enabled! You may shut down the cold daemon.
@@ -148,11 +148,11 @@ CActiveMasternode::Dseep() — RelayMasternodeEntryPing vin = CTxIn(COutPoin
 
 This now means your masternode is running properly and you will soon be receiving rewards. 
 
-If you dont see the `Enabled! You may shut down the cold daemon` line appear when you click Start:
+If you dont see the `Enabled! You may shut down the cold daemon` line appear when you start your masternode:
 
  - wait a few minutes 
- - click Start again
- - then check the VPS log tail output
+ - restart your masternode from the wallet
+ - check the VPS log tail output
  
 Sometimes your masternode needs time to broadcast itself to the network before this command will work correctly. The time that takes varies based on the amount of network activity.
 
@@ -172,6 +172,8 @@ Despite this script needing to run as `root` you should secure your Ubuntu serve
  - enable SSH certificate login only
 
 If the above precautions are taken you will need to `su root` before running the script.
+
+If you need assistance in the server setup there is a guide available here - https://www.digitalocean.com/community/tutorials/initial-server-setup-with-ubuntu-16-04.
 
 &nbsp;
 
