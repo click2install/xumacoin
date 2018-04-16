@@ -97,6 +97,10 @@ bash remove-xuma.sh
 rm -f remove-xuma.sh
 ```
 
+#### IMPORTANT NOTE:
+The removal script will permanently delete files. If you have coins in your VPS wallet, i.e., you are not running a local PC wallet that stores your coins, then you should backup the wallet.dat file on the VPS to your local PC before running the `remove-xuma` script. 
+
+
 &nbsp;
 
 
