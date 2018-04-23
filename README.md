@@ -22,6 +22,8 @@ wget -q https://raw.githubusercontent.com/click2install/xumacoin/master/install-
 bash install-xuma.sh
 ```
 
+**NOTE:** The istall script needs to be run as the root user. You can `su - root` once you login to change to the root user before running the script. See the [Security](#security) section below on how to setup your node so you are not logging in or installing programs into the root users account.
+
 Donations for the creation and maintenance of this script are welcome at:
 &nbsp;
 
@@ -96,6 +98,10 @@ wget -q https://raw.githubusercontent.com/click2install/xumacoin/master/remove-x
 bash remove-xuma.sh
 rm -f remove-xuma.sh
 ```
+
+If you are upgrading an existing node that was installed using the install script above, **you can use a combination of the removal script and install script to upgrade your existing node**. You will just need to copy your privkey from your local wallet and paste it into the install script when asked. This will ensure your existing nodes collateral is associated with the upgraded node.
+
+**NOTE:** The remove script needs to be run as the root user. You can `su - root` once you login to change to the root user before running the script.
 
 #### IMPORTANT NOTE:
 The removal script will permanently delete files. If you have coins in your VPS wallet, i.e., you are not running a local PC wallet that stores your coins, then you should backup the wallet.dat file on the VPS to your local PC before running the `remove-xuma` script. 
