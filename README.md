@@ -8,6 +8,7 @@ Shell scripts to install and remove a [Xuma Masternode](https://bitcointalk.org/
   - [How to setup your masternode with this script and a cold wallet on your PC](#how-to-setup-your-masternode-with-this-script-and-a-cold-wallet-on-your-PC)
   - [Multiple master nodes on one server](#multiple-master-nodes-on-one-server)
   - [Running the install script](#running-the-install-script)
+  - [Upgrading an existing running node](#upgrading-an-existing-running-node)
   - [Adding PC wallet configuration](#adding-pc-wallet-configuration)
   - [Removing a master node](#removing-a-master-node)
   - [How to tell my master node is "actually" running properly](#how-to-tell-my-master-node-is-actually-running-properly)
@@ -88,6 +89,23 @@ If you want to run the script before setting up the node in your cold wallet the
 &nbsp;
 
 
+## Upgrading an existing running node
+
+If you are upgrading an existing node that was installed using the install script above, you can perform these steps to easily update the node without re-sending your Xuma collateral.
+
+ 1. Run the removal script
+ 2. Run the install script, when it asks for a privkey, paste your existing privkey in and do not let the script generate a new one
+ 3. Let your node fully sync to the network
+ 4. Verify it is running by reviewing [How to tell my master node is "actually" running properly](#how-to-tell-my-master-node-is-actually-running-properly)
+ 5. Start your node from your local PC wallet as usual
+
+Your existing privkey can be found in your masternode.conf file, or you can locate it from the SSH shell using
+```
+cat /home/<username>/.xuma/mainnet/xuma.conf | grep masternodeprivkey=
+```
+
+&nbsp;
+
 ## Removing a master node
 If you have used the `install-xuma.sh` script to install your masternode and you want to remove it. You can run `remove-xuma.sh` to clean your server of all files and folders that the installation script created.
 
@@ -98,8 +116,6 @@ wget -q https://raw.githubusercontent.com/click2install/xumacoin/master/remove-x
 bash remove-xuma.sh
 rm -f remove-xuma.sh
 ```
-
-If you are upgrading an existing node that was installed using the install script above, **you can use a combination of the removal script and install script to upgrade your existing node**. You will just need to copy your privkey from your local wallet and paste it into the install script when asked. This will ensure your existing nodes collateral is associated with the upgraded node.
 
 **NOTE:** The remove script needs to be run as the root user. You can `su - root` once you login to change to the root user before running the script.
 
