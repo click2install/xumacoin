@@ -11,6 +11,7 @@ Shell scripts to install and remove a [Xuma Masternode](https://bitcointalk.org/
   - [Upgrading an existing running node](#upgrading-an-existing-running-node)
   - [Adding PC wallet configuration](#adding-pc-wallet-configuration)
   - [Removing a master node](#removing-a-master-node)
+  - [When will I get a reward](#when-will-i-get-a-reward)
   - [How to tell my master node is "actually" running properly](#how-to-tell-my-master-node-is-actually-running-properly)
   - [Security](#security)
   - [Disclaimer](#disclaimer)
@@ -122,6 +123,18 @@ rm -f remove-xuma.sh
 #### IMPORTANT NOTE:
 The removal script will permanently delete files. If you have coins in your VPS wallet, i.e., you are not running a local PC wallet that stores your coins, then you should backup the wallet.dat file on the VPS to your local PC before running the `remove-xuma` script. 
 
+
+&nbsp;
+
+## When will I get a reward?
+Rewards are paid on a rank system for your node, you can use the `queue-position.sh` script to determine your rank in the queue. For first rewards, you need to cycle the queue twice and on the third time you reach the front `1` position you will receive payment.
+
+You can run the script by using your receiving address like:
+
+```
+wget -q https://raw.githubusercontent.com/click2install/xumacoin/master/queue-position.sh  
+bash queue-position.sh <receiving wallet address>
+```
 
 &nbsp;
 
