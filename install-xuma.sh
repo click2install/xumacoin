@@ -155,8 +155,8 @@ Type=forking
 User=$USER_NAME
 Group=$USER_NAME
 WorkingDirectory=$DATA_DIR
-ExecStart=$DAEMON_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/mainnet/xuma.conf -daemon
-ExecStop=$CLI_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/mainnet/xuma.conf stop
+ExecStart=$DAEMON_BINARY_FILE -datadir=$DATA_DIR/mainnet -conf=$DATA_DIR/mainnet/xuma.conf -daemon
+ExecStop=$CLI_BINARY_FILE -datadir=$DATA_DIR/mainnet -conf=$DATA_DIR/mainnet/xuma.conf stop
 Restart=always
 RestartSec=3
 PrivateTmp=true
