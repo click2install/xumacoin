@@ -67,7 +67,7 @@ function prepare_system()
   DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -y -qq upgrade 
   
   echo -e "${GREEN}Installing all dependencies for the Xuma coin master node, it may take some time to finish.${NC}"
-  apt install -y git wget pwgen automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev libboost-all-dev software-properties-common fail2ban ufw htop unzip
+  apt install -y sudo git wget pwgen automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev libboost-all-dev software-properties-common fail2ban ufw htop unzip
   apt-add-repository -y ppa:bitcoin/bitcoin
   apt update
   apt install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev
