@@ -1,5 +1,9 @@
 # Xuma Coin
 
+```
+THIS SCRIPT IS UNDER FURTHER DEVELOPMENT AND SHOULD NOT BE USED TO INSTALL YOUR NODE ATM, UPDATES WILL BE POSTED HERE SOON
+```
+
 Shell scripts to install and remove a [Xuma Masternode](https://bitcointalk.org/index.php?topic=2976421.0) on a Linux server running Ubuntu 16.04.
 
 ## Contents
