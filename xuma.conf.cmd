@@ -14,14 +14,15 @@ goto :choice
 
 :create
 (
-echo addnode=159.89.120.208
-echo addnode=159.89.120.226
-echo addnode=165.227.230.24
-echo addnode=159.65.63.79
-echo addnode=159.203.10.85
-echo addnode=138.197.151.120
-echo addnode=139.59.38.142
-echo addnode=159.89.170.123
+echo addnode=51.254.75.140:19777
+echo addnode=93.178.98.224:19777
+echo addnode=95.174.101.14:19777
+echo addnode=212.237.29.88:19777
+echo addnode=93.186.253.211:19777
+echo addnode=194.182.80.175:19777
+echo addnode=50.59.59.191:19777
+echo addnode=50.59.59.192:19777
+echo addnode=50.59.59.247:19777
 )>xuma.conf
 echo. 
 echo A default xuma.conf file was created in the current directory.

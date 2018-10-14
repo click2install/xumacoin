@@ -10,7 +10,7 @@ DAEMON_BINARY="xumad"
 CLI_BINARY="xuma-cli"
 DAEMON_BINARY_FILE="/usr/local/bin/$DAEMON_BINARY"
 CLI_BINARY_FILE="/usr/local/bin/$CLI_BINARY"
-GITHUB_REPO="https://github.com/xumacoin/xuma-core.git"
+GITHUB_REPO=${1:-"https://github.com/xumacoin/xuma-core/releases/download/v1.3.0.5/XUMA-Linux64-v1.3.0.5.zip"}
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -70,7 +70,7 @@ function prepare_system()
   apt install -y sudo git wget pwgen automake build-essential libtool autotools-dev autoconf pkg-config libssl-dev libboost-all-dev software-properties-common fail2ban ufw htop unzip
   apt-add-repository -y ppa:bitcoin/bitcoin
   apt update
-  apt install -y libdb4.8-dev libdb4.8++-dev libminiupnpc-dev
+  apt install -y libdb4.8-dev libdb4.8++-dev libdb5.3++ libminiupnpc-dev
   apt autoremove -y
   apt autoclean -y
   clear
@@ -94,28 +94,23 @@ function prepare_system()
 
 function deploy_binary() 
 {
-  if [ -f $DAEMON_BINARY_FILE ]; then
-    echo -e "${GREEN}Xuma daemon binary file already exists, using binary from $DAEMON_BINARY_FILE.${NC}"
+  if [ -f ${DAEMON_BINARY_FILE} ]; 
+  then
+    echo -e " ${GREEN}XUMA daemon binary file already exists, using binary from ${DAEMON_BINARY_FILE}.${NC}"
   else
     cd $TMP_FOLDER
+    echo -e "${GREEN}Downloading binaries from the Xuma GitHub repository at ${GITHUB_REPO}.${NC}"
 
-    echo -e "${GREEN}Downloading source code from the Xuma GitHub repository at $GITHUB_REPO.${NC}"
-    git clone $GITHUB_REPO
-    cd xuma-core
+    local archive=xuma.zip
+    wget ${GITHUB_REPO} -O ${archive}
 
-    echo -e "${GREEN}Compiling the source code, this will take some time.${NC}"
-    ./autogen.sh
-    ./configure
-    make all install
-
-    echo -e "${GREEN}Copying compiled binaries to the correct location.${NC}"
-    
-    cp ./src/$DAEMON_BINARY /usr/local/bin/ >/dev/null 2>&1
-    cp ./src/$CLI_BINARY /usr/local/bin/ >/dev/null 2>&1
-
-    chmod +x /usr/local/bin/xuma*;
-
+    unzip -j ${archive} >/dev/null 2>&1
+    cp ${DAEMON_BINARY} ${CLI_BINARY} /usr/local/bin/
+    chmod +x ${DAEMON_BINARY_FILE} >/dev/null 2>&1
+    chmod +x ${CLI_BINARY_FILE} >/dev/null 2>&1
     cd
+
+    rm -rf ${TMP_FOLDER}
   fi
 }
 
@@ -155,8 +150,8 @@ Type=forking
 User=$USER_NAME
 Group=$USER_NAME
 WorkingDirectory=$DATA_DIR
-ExecStart=$DAEMON_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/mainnet/xuma.conf -daemon
-ExecStop=$CLI_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/mainnet/xuma.conf stop
+ExecStart=$DAEMON_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/xuma.conf -daemon
+ExecStop=$CLI_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/xuma.conf stop
 Restart=always
 RestartSec=3
 PrivateTmp=true
@@ -244,7 +239,7 @@ function create_config()
   RPCUSER=$(pwgen -s 8 1)
   RPCPASSWORD=$(pwgen -s 15 1)
   DAEMON_IP=$(ip route get 1 | awk '{print $NF;exit}')  
-  cat << EOF > $DATA_DIR/mainnet/$CONFIG_FILE
+  cat << EOF > $DATA_DIR/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
 rpcport=$DEFAULT_RPC_PORT
@@ -257,16 +252,37 @@ maxconnections=256
 logtimestamps=1
 externalip=$DAEMON_IP
 bind=$DAEMON_IP
-addnode=159.89.120.208
-addnode=159.89.120.226
-addnode=165.227.230.24
-addnode=159.65.63.79
-addnode=159.203.10.85
-addnode=138.197.151.120
-addnode=139.59.38.142
-addnode=159.89.170.123
+addnode=51.254.75.140
+addnode=93.178.98.224
+addnode=95.174.101.14
+addnode=212.237.29.88
+addnode=93.186.253.211
+addnode=194.182.80.175
+addnode=50.59.59.191
+addnode=50.59.59.192
+addnode=50.59.59.247
 
 EOF
+}
+
+function get_key()
+{
+  echo -e "${GREEN}  Requesting privkey${NC}"
+  local privkey=$(sudo -u $USER_NAME $CLI_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/xuma.conf masternode genkey 2>&1) 
+  
+  if [[ -z "${privkey}" ]] || [[ "${privkey^^}" = *"ERROR"* ]]; 
+  then
+    local retry=5
+    echo -e "${GREEN}  - Unable to request private key or node not ready, retrying in ${retry} seconds ...${NC}"
+
+    get_key
+  else
+    echo -e "${GREEN}  - Privkey successfully generated${NC}"
+    PRIV_KEY=${privkey}
+
+    sudo -u $USER_NAME $CLI_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/xuma.conf stop >/dev/null 2>&1
+    sleep 5
+  fi
 }
 
 function create_key() 
@@ -274,27 +290,26 @@ function create_key()
   read -e -p "$(echo -e $YELLOW Enter your master nodes private key. Leave it blank to generate a new private key.$NC)" PRIV_KEY
 
   if [[ -z "$PRIV_KEY" ]]; then
-    sudo -u $USER_NAME $DAEMON_BINARY_FILE -datadir=$DATA_DIR -daemon >/dev/null 2>&1
+    sudo -u $USER_NAME $DAEMON_BINARY_FILE -datadir=$DATA_DIR -conf=$DATA_DIR/xuma.conf -daemon >/dev/null 2>&1
     sleep 5
 
     if [ -z "$(pidof $DAEMON_BINARY)" ]; then
-    echo -e "${RED}Xuma deamon couldn't start, could not generate a private key. Check /var/log/syslog for errors.${NC}"
-    exit 1
+      echo -e "${RED}Xuma deamon couldn't start, could not generate a private key. Check /var/log/syslog for errors.${NC}"
+      exit 1
     fi
 
-    PRIV_KEY=$(sudo -u $USER_NAME $CLI_BINARY_FILE -datadir=$DATA_DIR masternode genkey) 
-    sudo -u $USER_NAME $CLI_BINARY_FILE -datadir=$DATA_DIR stop >/dev/null 2>&1
+    get_key    
   fi
 }
 
 function update_config() 
 {
-  cat << EOF >> $DATA_DIR/mainnet/$CONFIG_FILE
+  cat << EOF >> $DATA_DIR/$CONFIG_FILE
 masternode=1
 masternodeaddr=$DAEMON_IP:$DAEMON_PORT
 masternodeprivkey=$PRIV_KEY
 EOF
-  chown $USER_NAME: $DATA_DIR/mainnet/$CONFIG_FILE >/dev/null
+  chown $USER_NAME: $DATA_DIR/$CONFIG_FILE >/dev/null
 }
 
 function add_log_truncate()
@@ -331,7 +346,7 @@ function show_output()
  echo -e " - the ${GREEN}$USER_NAME password${NC} is ${GREEN}$USER_PASSWORD${NC}"
  echo -e " - the Xuma binary files are installed to ${GREEN}/usr/local/bin${NC}"
  echo -e " - all data and configuration for the masternode is located at ${GREEN}$DATA_DIR${NC} and the folders within"
- echo -e " - the Xuma configuration file is located at ${GREEN}$DATA_DIR/mainnet/$CONFIG_FILE${NC}"
+ echo -e " - the Xuma configuration file is located at ${GREEN}$DATA_DIR/$CONFIG_FILE${NC}"
  echo -e " - the masternode privkey is ${GREEN}$PRIV_KEY${NC}"
  echo
  echo -e "You can manage your Xuma service from your SSH cmdline with the following commands:"
@@ -407,7 +422,7 @@ echo
 echo -e "Script created by click2install"
 echo -e " - GitHub: https://github.com/click2install/xumacoin"
 echo -e " - Discord: click2install#9625"
-echo -e " - Xuma: XWKSQTpNqx63tuNdKnxvLAuX6sz1GCVWY6"
+echo -e " - BTC: 1DJdhFp6CiVZSBSsXcecp1FnuHXDcsYQPu"
 echo 
 echo -e "========================================================================================================="
 echo
