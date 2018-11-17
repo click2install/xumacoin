@@ -238,7 +238,7 @@ function create_config()
 {
   RPCUSER=$(pwgen -s 8 1)
   RPCPASSWORD=$(pwgen -s 15 1)
-  DAEMON_IP=$(ip route get 1 | awk '{print $NF;exit}')  
+  DAEMON_IP=$(curl icanhazip.com -s)  
   cat << EOF > $DATA_DIR/$CONFIG_FILE
 rpcuser=$RPCUSER
 rpcpassword=$RPCPASSWORD
